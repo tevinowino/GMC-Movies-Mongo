@@ -40,11 +40,8 @@ app.get('/movies', async (req, res) => {
     // Query the movies collection, filtering by genre if provided
     const query = genre ? { genre: genre } : {};
     const movies = await db.collection('movies').find(query).toArray();
-
-    res.render('movies', { 
-      title: 'Movies',
-      movies: movies 
-    });
+    res.json(movies);
+ 
   } catch (err) {
     console.error('Error fetching movies:', err);
     res.status(500).send('Internal Server Error');
@@ -60,8 +57,7 @@ app.get('/movies/:id', async (req, res) => {
     if (!movie) {
       return res.status(404).render('error', { message: 'Movie not found' });
     }
-    res.render('movie', { title: movie.title, movie: movie });
-  } catch (err) {
+res.json(movie)  } catch (err) {
     console.error(err);
     res.status(500).send('Internal Server Error');
   }
