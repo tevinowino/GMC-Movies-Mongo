@@ -33,15 +33,15 @@ app.get('/movies', async (req, res) => {
   try {
     await client.connect();
     const db = client.db('movies');
-    
+
     // Get the genre from query parameters
     const genre = req.query.genre;
-    
+
     // Query the movies collection, filtering by genre if provided
     const query = genre ? { genre: genre } : {};
     const movies = await db.collection('movies').find(query).toArray();
     res.json(movies);
- 
+
   } catch (err) {
     console.error('Error fetching movies:', err);
     res.status(500).send('Internal Server Error');
@@ -57,19 +57,20 @@ app.get('/movies/:id', async (req, res) => {
     if (!movie) {
       return res.status(404).render('error', { message: 'Movie not found' });
     }
-res.json(movie)  } catch (err) {
+    res.json(movie)
+  } catch (err) {
     console.error(err);
     res.status(500).send('Internal Server Error');
   }
 });
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   res.status(err.status || 500);
