@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1= movie.title
+  p Genre: #{movie.genre}
+  p Rating: #{movie.rating}
+  p Year: #{movie.year}
+  p Length: #{movie.length} min
+  p Director: #{movie.director}
+  p Actors: #{movie.actors.join(', ')}
